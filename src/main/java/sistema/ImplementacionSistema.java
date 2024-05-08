@@ -1,11 +1,12 @@
 package sistema;
 
-import dominio.Pasajero;
+import dominio.*;
 import interfaz.*;
 import TADs.*;
 public class ImplementacionSistema implements Sistema {
 
-    private ABB<Pasajero> arbolPersonas;
+    private ABB<Pasajero> arbolPasajeros;
+    private ABB<Aerolinea> arbolAerolineas;
     private int maxAeropuertos;
     private int maxAerolineas;
 
@@ -20,7 +21,7 @@ public class ImplementacionSistema implements Sistema {
         }
         this.maxAerolineas = maxAerolineas;
         this.maxAeropuertos = maxAeropuertos;
-        arbolPersonas = new ABB<Pasajero>();
+        arbolPasajeros = new ABB<Pasajero>();
         return Retorno.ok();
 
     }
@@ -32,18 +33,29 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error1("");
         } else if (!p.validarCI(cedula)) {
             return Retorno.error2("");
-        } else if (arbolPersonas.existe(p)) {
+        } else if (arbolPasajeros.existe(p)) {
             return Retorno.error3("");
         }else {
-            arbolPersonas.agregar(p);
-            return Retorno.ok(Retorno.ok().getValorString());
+            arbolPasajeros.agregar(p);
+            return Retorno.ok();
         }
 
     }
 
     @Override
     public Retorno buscarPasajero(String cedula) {
-        return Retorno.noImplementada();
+        Pasajero p = new Pasajero(cedula, "", "", null);
+        if(cedula == null || cedula.isEmpty()){
+            return Retorno.error1("");
+        } else if (!p.validarCI(cedula)) {
+            return Retorno.error2("");
+        } else if (!arbolPasajeros.existe(p)){
+            return Retorno.error3("");
+        }else {
+            p = arbolPasajeros.obtener(p);
+            //falta corregir la devolucion de elementos que recorrio
+            return Retorno.ok(0, p.toString());
+        }
     }
 
     @Override

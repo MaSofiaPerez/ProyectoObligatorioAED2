@@ -65,9 +65,9 @@ public class Test02_RegistrarPasajeroTest {
 
     @Test
     void noDeberiaRegistrarPasajeroRepetido() {
-        retorno = sistema.registrarPasajero(new String("5.447.365-1"), new String("Gustavo"), new String("1234"), Categoria.FRECUENTE);
+        retorno = sistema.registrarPasajero(new String("5.447.365-2"), new String("Gustavo"), new String("1234"), Categoria.FRECUENTE);
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        retorno = sistema.registrarPasajero(new String("5.447.365-1"), new String("Gustavo"), new String("1234"), Categoria.FRECUENTE);
+        retorno = sistema.registrarPasajero(new String("5.447.365-2"), new String("Gustavo"), new String("1234"), Categoria.FRECUENTE);
         assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
     }
 

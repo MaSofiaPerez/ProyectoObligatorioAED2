@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Aerolinea {
+public class Aerolinea implements Comparable<Aerolinea> {
 
     //Atributos
     private String codigo;
@@ -30,5 +30,10 @@ public class Aerolinea {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @Override
+    public int compareTo(Aerolinea otraAerolinea) {
+        return this.codigo.compareTo(otraAerolinea.getCodigo());
     }
 }

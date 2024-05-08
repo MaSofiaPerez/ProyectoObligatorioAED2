@@ -70,9 +70,10 @@ public class Pasajero implements Comparable<Pasajero> {
         return cedula.matches(patron);
     }
 
-    public void convertirCI(String cedula){
+    private int convertirCI(String cedula){
         cedula = cedula.replaceAll("\\.", "").replaceAll("-", "");
-        int cedulaInt = Integer.parseInt(cedula);
+        return Integer.parseInt(cedula);
+
     }
 
     public boolean validarVacios(String cedula, String nombre, String telefono, Categoria categoria){
@@ -82,8 +83,28 @@ public class Pasajero implements Comparable<Pasajero> {
 
     @Override
     public int compareTo(Pasajero otroPasajero) {
-        return this.cedula.compareTo(otroPasajero.cedula);
+        cedulaInt = convertirCI(this.cedula);
+        if(this.cedulaInt < otroPasajero.convertirCI(otroPasajero.cedula)){
+            return -1;
+        } else if (this.cedulaInt > otroPasajero.convertirCI(otroPasajero.cedula)) {
+            return 1;
+        }else {
+            return 0;
+        }
     }
+
+    @Override
+    public String toString(){
+        return cedula + ";" + nombre + ";" + telefono + ";" + categoria;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        Pasajero p = (Pasajero) o;
+        return this.cedula.equals(p.cedula);
+    }
+
+
 
 
 

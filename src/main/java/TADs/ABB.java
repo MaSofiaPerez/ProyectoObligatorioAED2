@@ -49,6 +49,19 @@ public class ABB<T extends Comparable<T>> {
             return existeRec(nodo.getDer(), dato);
         }
     }
+    public T obtener(T dato) {
+        return this.obtener(this.raiz, dato);
+    }
+
+    private T obtener(Nodo<T> nodo, T dato) {
+        if (nodo == null) {
+            return null;
+        } else if ((nodo.getDato()).equals(dato)) {
+            return nodo.getDato();
+        } else {
+            return dato.compareTo(nodo.getDato()) > 0 ? this.obtener(nodo.getDer(), dato) : this.obtener(nodo.getIzq(), dato);
+        }
+    }
 
     public void mostrar() {
         mostrar(raiz);
@@ -125,7 +138,7 @@ public class ABB<T extends Comparable<T>> {
 //        }
 //    }
 
-    public Lista obtnerElementosMayores(int k){
+    public Lista obtenerElementosMayores(int k){
         Lista lista = new Lista();
         obtenerRec(raiz, lista, k);
         return lista;
