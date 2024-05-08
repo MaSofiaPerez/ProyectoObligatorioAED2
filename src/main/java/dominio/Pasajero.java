@@ -1,11 +1,8 @@
 package dominio;
 
 import interfaz.Categoria;
-import TADs.*;
 
-import java.util.regex.Pattern;
-
-public class Persona {
+public class Pasajero implements Comparable<Pasajero> {
 
     //Atributos
     private String cedula;
@@ -15,7 +12,7 @@ public class Persona {
     private Categoria categoria;
 
     //Ctor
-    public Persona(String cedula, String nombre, String telefono, Categoria categoria){
+    public Pasajero(String cedula, String nombre, String telefono, Categoria categoria){
         this.cedula = cedula;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -65,33 +62,27 @@ public class Persona {
     }
 
     public boolean validarCI(String cedula){
-        if(cedula == null || cedula.isEmpty()){
-            return false;
-        }
 
-        cedula = cedula.replaceAll("\\.", "").replaceAll("-", "");
+        // Patrón para el formato N.NNN.NNN-N o NNN.NNN-N
+        String patron = "^[1-9]\\d?\\d?\\.\\d{3}\\.\\d{3}-\\d$|^[1-9]\\d{2}\\.\\d{3}-\\d$";
 
-        if(cedula.length() != 11 && cedula.length() != 10){
-            return false;
-        }
-
-        char primerDigito = cedula.charAt(0);
-        if(primerDigito < '1' || primerDigito > '9'){
-            return false;
-        }
-
-        for(int i = 1; i < cedula.length(); i++){
-            if(!Character.isDigit(cedula.charAt(i))){
-                return false;
-            }
-        }
-
-        return true;
+        // Verificar si la cédula coincide con el patrón
+        return cedula.matches(patron);
     }
 
     public void convertirCI(String cedula){
         cedula = cedula.replaceAll("\\.", "").replaceAll("-", "");
         int cedulaInt = Integer.parseInt(cedula);
+    }
+
+    public boolean validarVacios(String cedula, String nombre, String telefono, Categoria categoria){
+        return cedula != null && !cedula.isEmpty() && nombre != null && !nombre.isEmpty() && telefono != null && !telefono.isEmpty() && categoria != null;
+    }
+
+
+    @Override
+    public int compareTo(Pasajero otroPasajero) {
+        return this.cedula.compareTo(otroPasajero.cedula);
     }
 
 

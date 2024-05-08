@@ -1,8 +1,14 @@
 package sistema;
 
+import dominio.Pasajero;
 import interfaz.*;
-
+import TADs.*;
 public class ImplementacionSistema implements Sistema {
+
+    private ABB<Pasajero> arbolPersonas;
+    private int maxAeropuertos;
+    private int maxAerolineas;
+
 
     @Override
     public Retorno inicializarSistema(int maxAeropuertos, int maxAerolineas) {
@@ -12,13 +18,27 @@ public class ImplementacionSistema implements Sistema {
         }else if (maxAerolineas<=3){
             return Retorno.error2("");
         }
-        //inicializar AB, ABB
+        this.maxAerolineas = maxAerolineas;
+        this.maxAeropuertos = maxAeropuertos;
+        arbolPersonas = new ABB<Pasajero>();
         return Retorno.ok();
+
     }
 
     @Override
     public Retorno registrarPasajero(String cedula, String nombre, String telefono, Categoria categoria) {
-        return Retorno.noImplementada();
+        Pasajero p = new Pasajero(cedula, nombre, telefono, categoria);
+        if(!p.validarVacios(cedula, nombre, telefono, categoria)){
+            return Retorno.error1("");
+        } else if (!p.validarCI(cedula)) {
+            return Retorno.error2("");
+        } else if (arbolPersonas.existe(p)) {
+            return Retorno.error3("");
+        }else {
+            arbolPersonas.agregar(p);
+            return Retorno.ok(Retorno.ok().getValorString());
+        }
+
     }
 
     @Override

@@ -1,38 +1,51 @@
 package TADs;
 
-public class Nodo {
+public class Nodo<T> {
+        private T dato;
+        private Nodo<T> izq;
+        private Nodo<T> der;
 
-    private int dato;
-    private Nodo sig;
+        public Nodo(T dato) {
+            this.dato = dato;
+        }
 
-    public Nodo(int dato) {
-        this.dato = dato;
-        //this.sig = null;
+        public Nodo(T dato, Nodo<T> izq, Nodo<T> der) {
+            this.dato = dato;
+            this.izq = izq;
+            this.der = der;
+        }
+
+        public boolean esHoja() {
+            return this.izq == null && this.der == null;
+        }
+
+        public T getDato() {
+            return dato;
+        }
+
+        public void setDato(T dato) {
+            this.dato = dato;
+        }
+
+        public Nodo<T> getIzq() {
+            return izq;
+        }
+
+        public void setIzq(Nodo<T> izq) {
+            this.izq = izq;
+        }
+
+        public Nodo<T> getDer() {
+            return der;
+        }
+
+        public void setDer(Nodo<T> der) {
+            this.der = der;
+        }
+
+        @Override
+        public String toString() {
+            return dato + "";
+        }
     }
 
-    public Nodo(int dato, Nodo sig) {
-        this.dato = dato;
-        this.sig = sig;
-    }
-
-    public int getDato() {
-        return dato;
-    }
-
-    public void setDato(int dato) {
-        this.dato = dato;
-    }
-
-    public Nodo getSig() {
-        return sig;
-    }
-
-    public void setSig(Nodo sig) {
-        this.sig = sig;
-    }
-
-    @Override
-    public String toString() {
-        return dato + "";
-    }
-}

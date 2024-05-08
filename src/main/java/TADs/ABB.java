@@ -34,8 +34,20 @@ public class ABB<T extends Comparable<T>> {
         return cantidad;
     }
 
-    public boolean existe(T existe) {
-        return false;
+    public boolean existe(T dato) {
+        return existeRec(raiz, dato);
+    }
+    private boolean existeRec(Nodo<T> nodo, T dato){
+        if(nodo == null){
+            return false;
+        }
+        if(dato.compareTo(nodo.getDato()) == 0){
+            return true;
+        }else if (dato.compareTo(nodo.getDato())  < 0){
+            return existeRec(nodo.getIzq(), dato);
+        }else{
+            return existeRec(nodo.getDer(), dato);
+        }
     }
 
     public void mostrar() {
