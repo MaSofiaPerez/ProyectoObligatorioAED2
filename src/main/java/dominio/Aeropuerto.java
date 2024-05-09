@@ -1,6 +1,6 @@
 package dominio;
 
-public class Aeropuerto {
+public class Aeropuerto implements Comparable<Aeropuerto> {
    private String codigo;
     private String nombre;
 
@@ -24,4 +24,8 @@ public class Aeropuerto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+   @Override
+    public int compareTo(Aeropuerto otra) {
+        return this.codigo.compareTo(otra.getCodigo());
+        }
 }
