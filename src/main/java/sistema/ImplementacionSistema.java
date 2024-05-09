@@ -7,6 +7,7 @@ public class ImplementacionSistema implements Sistema {
 
     private ABB<Pasajero> arbolPasajeros;
     private ABB<Aerolinea> arbolAerolineas;
+    private ABB<Aeropuerto> arbolAeropuertos;
     private int maxAeropuertos;
     private int maxAerolineas;
 
@@ -22,6 +23,8 @@ public class ImplementacionSistema implements Sistema {
         this.maxAerolineas = maxAerolineas;
         this.maxAeropuertos = maxAeropuertos;
         arbolPasajeros = new ABB<Pasajero>();
+        arbolAeropuertos=new ABB<Aeropuerto>();
+        arbolAerolineas = new ABB<Aerolinea>();
         return Retorno.ok();
 
     }
@@ -70,7 +73,19 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarAerolinea(String codigo, String nombre) {
-        return Retorno.noImplementada();
+         if(maxAerolineas==0){
+            return Retorno.error1(""); 
+        } else if (codigo==null || codigo.isEmpty() || nombre==null || nombre.isEmpty()){
+            return  Retorno.error2("");
+        }
+        Aerolinea a=new Aerolinea(codigo,nombre);
+        if (arbolAerolineas.existe(a)){
+            return Retorno.error4("");
+        }else {
+            arbolAerolineas.agregar(a);
+            maxAerolineas--;
+        return Retorno.ok();
+    }
     }
 
     @Override
@@ -80,7 +95,19 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarAeropuerto(String codigo, String nombre) {
-        return Retorno.noImplementada();
+        if (maxAeropuertos==0){
+    return Retorno.error1("");
+} else if (codigo==null || codigo.isEmpty() || nombre==null || nombre.isEmpty()){
+    return  Retorno.error2("");
+}
+Aeropuerto aereo=new Aeropuerto(codigo,nombre);
+      if(arbolAeropuertos.existe(aereo)){
+          return Retorno.error3("");
+      }else {
+          arbolAeropuertos.agregar(aereo);
+          maxAeropuertos--;
+          return Retorno.ok();
+      }
     }
 
     @Override
