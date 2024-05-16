@@ -100,16 +100,16 @@ public class ABB<T extends Comparable<T>> {
 //        return cantElementosMayores(nodo.getIzq(), k)+ cantElementosMayores(nodo.getDer(), k);
 //    }
 
-    public Lista obtenerCreciente(){
-        Lista lista = new Lista();
+     public Lista<T> obtenerCreciente(){
+        Lista<T> lista = new Lista<>();
         aplanarCrecienteRec(this.raiz, lista);
         return lista;
     }
 
-    private void aplanarCrecienteRec(Nodo nodo, Lista lista){
-        if(nodo != null){
+    private void aplanarCrecienteRec(Nodo<T> nodo, Lista<T> lista) {
+        if (nodo != null) {
             aplanarCrecienteRec(nodo.getIzq(), lista);
-            lista.agregar(nodo.getDato()); //DEBERIA SER AGREGAR FINAL PERO NO ESTA HECHO EN TADLISTA
+            lista.agregarFinal(nodo.getDato());
             aplanarCrecienteRec(nodo.getDer(), lista);
         }
     }
@@ -121,7 +121,11 @@ public class ABB<T extends Comparable<T>> {
 //            aplanarRec(nodo.getIzq(), lista);
 //        }
 //    }
-
+public Lista<T> obtenerDecreciente(){
+    Lista<T> lista = new Lista<>();
+    aplanarDecrecienteRec(this.raiz, lista);
+    return lista;
+}
     private void aplanarDecrecienteRec(Nodo nodo, Lista lista){
         if(nodo != null){
             aplanarDecrecienteRec(nodo.getDer(), lista);
@@ -130,13 +134,6 @@ public class ABB<T extends Comparable<T>> {
         }
     }
 
-//    private void aplanarDecrecienteRec(Nodo nodo, Lista lista){
-//        if(nodo != null){
-//            aplanarRec(nodo.getIzq(), lista);
-//            lista.agregarInicio(nodo.getDato());
-//            aplanarRec(nodo.getDer(), lista);
-//        }
-//    }
 
     public Lista obtenerElementosMayores(int k){
         Lista lista = new Lista();
