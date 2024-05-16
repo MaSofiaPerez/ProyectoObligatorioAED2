@@ -10,7 +10,7 @@ public class ImplementacionSistema implements Sistema {
     private ABB<Aeropuerto> arbolAeropuertos;
     private int maxAeropuertos;
     private int maxAerolineas;
-
+ private  ABBCategoria arbolCategoria;
 
     @Override
     public Retorno inicializarSistema(int maxAeropuertos, int maxAerolineas) {
@@ -25,6 +25,7 @@ public class ImplementacionSistema implements Sistema {
         arbolPasajeros = new ABB<Pasajero>();
         arbolAeropuertos=new ABB<Aeropuerto>();
         arbolAerolineas = new ABB<Aerolinea>();
+        arbolCategoria= new ABBCategoria();
         return Retorno.ok();
 
     }
