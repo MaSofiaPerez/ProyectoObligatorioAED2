@@ -40,6 +40,7 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error3("");
         }else {
             arbolPasajeros.agregar(p);
+             arbolCategoria.agregarPasajero(p,p.getCategoria());
             return Retorno.ok();
         }
 
@@ -63,12 +64,35 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarPasajerosAscendente() {
-        return Retorno.noImplementada();
+        String mostarlista="";
+        Lista<Pasajero> este=  arbolPasajeros.obtenerDecreciente();
+        for (int i = 0; i < este.largo(); i++) {
+            Pasajero pasajero = este.get(i);
+            if(pasajero!=null){
+                mostarlista+= pasajero.toString() ;
+                mostarlista+= "|";
+            }else {
+                break; // Salir del bucle si se encuentra un elemento null
+            }
+        }
+       return Retorno.ok(mostarlista);
     }
 
     @Override
     public Retorno listarPasajerosPorCategoria(Categoria categoria) {
-        return Retorno.noImplementada();
+       ABB<Pasajero> arbolPasageroCategoria = arbolCategoria.obtenerArbol( categoria);
+        String mostarlista="";
+        Lista<Pasajero> este=  arbolPasageroCategoria.obtenerCreciente();
+        for (int i = 0; i < este.largo(); i++) {
+            Pasajero pasajero = este.get(i);
+            if(pasajero!=null){
+                mostarlista+= pasajero.toString() ;
+            }else {
+                break; // Salir del bucle si se encuentra un elemento null
+            }
+            mostarlista+="|";
+        }
+        return Retorno.ok(mostarlista);
     }
 
     @Override
