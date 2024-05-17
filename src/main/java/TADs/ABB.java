@@ -129,7 +129,7 @@ public Lista<T> obtenerDecreciente(){
     private void aplanarDecrecienteRec(Nodo nodo, Lista lista){
         if(nodo != null){
             aplanarDecrecienteRec(nodo.getDer(), lista);
-            lista.agregar(nodo.getDato()); //DEBERIA SER AGREGAR FINAL PERO NO ESTA HECHO EN TADLISTA
+            lista.agregarFinal(nodo.getDato()); //DEBERIA SER AGREGAR FINAL PERO NO ESTA HECHO EN TADLISTA
             aplanarDecrecienteRec(nodo.getIzq(), lista);
         }
     }

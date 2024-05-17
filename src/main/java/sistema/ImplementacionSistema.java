@@ -10,7 +10,7 @@ public class ImplementacionSistema implements Sistema {
     private ABB<Aeropuerto> arbolAeropuertos;
     private int maxAeropuertos;
     private int maxAerolineas;
- private  ABBCategoria arbolCategoria;
+    private  ABBCategoria arbolCategoria;
 
     @Override
     public Retorno inicializarSistema(int maxAeropuertos, int maxAerolineas) {
@@ -58,42 +58,48 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error3("");
         }else {
             p = arbolPasajeros.obtener(p);
-            //falta corregir la devolucion de elementos que recorrio
+            String datosPasajero = p.toString();
+            //falta corregir la devolucion de elementos que recorrio y el | del final
             return Retorno.ok(0, p.toString());
         }
     }
 
     @Override
     public Retorno listarPasajerosAscendente() {
-        String mostarlista="";
-        Lista<Pasajero> este=  arbolPasajeros.obtenerDecreciente();
-        for (int i = 0; i < este.largo(); i++) {
-            Pasajero pasajero = este.get(i);
+        StringBuilder mostrarLista= new StringBuilder();
+        Lista<Pasajero> pasajeros =  arbolPasajeros.obtenerCreciente();
+        for (int i = 0; i < pasajeros.largo(); i++) {
+            Pasajero pasajero = pasajeros.get(i);
             if(pasajero!=null){
-                mostarlista+= pasajero.toString() ;
-                mostarlista+= "|";
+                mostrarLista.append(pasajero) ;
             }else {
-                break; // Salir del bucle si se encuentra un elemento null
+                break;
             }
         }
-       return Retorno.ok(mostarlista);
+        if(mostrarLista.length() > 0){
+            mostrarLista.setLength(mostrarLista.length()-1);
+        }
+
+       return Retorno.ok(mostrarLista.toString());
     }
 
     @Override
     public Retorno listarPasajerosPorCategoria(Categoria categoria) {
-       ABB<Pasajero> arbolPasageroCategoria = arbolCategoria.obtenerArbol( categoria);
-        String mostarlista="";
-        Lista<Pasajero> este=  arbolPasageroCategoria.obtenerCreciente();
-        for (int i = 0; i < este.largo(); i++) {
-            Pasajero pasajero = este.get(i);
-            if(pasajero!=null){
-                mostarlista+= pasajero.toString() ;
-            }else {
-                break; // Salir del bucle si se encuentra un elemento null
+        ABB<Pasajero> arbolPasajeroCategoria = arbolCategoria.obtenerArbol(categoria);
+        StringBuilder mostrarLista = new StringBuilder();
+        Lista<Pasajero> pasajeros = arbolPasajeroCategoria.obtenerCreciente();
+        for (int i = 0; i < pasajeros.largo(); i++) {
+            Pasajero pasajero = pasajeros.get(i);
+            if (pasajero != null) {
+                mostrarLista.append(pasajero);
+            } else {
+                break;
             }
-            mostarlista+="|";
         }
-        return Retorno.ok(mostarlista);
+        if(mostrarLista.length() > 0){
+            mostrarLista.setLength(mostrarLista.length()-1);
+        }
+        return Retorno.ok(mostrarLista.toString());
     }
 
     @Override
@@ -103,11 +109,11 @@ public class ImplementacionSistema implements Sistema {
         } else if (codigo==null || codigo.isEmpty() || nombre==null || nombre.isEmpty()){
             return  Retorno.error2("");
         }
-        Aerolinea a=new Aerolinea(codigo,nombre);
-        if (arbolAerolineas.existe(a)){
-            return Retorno.error4("");
+        Aerolinea aerolinea = new Aerolinea(codigo,nombre);
+        if (arbolAerolineas.existe(aerolinea)){
+            return Retorno.error3("");
         }else {
-            arbolAerolineas.agregar(a);
+            arbolAerolineas.agregar(aerolinea);
             maxAerolineas--;
         return Retorno.ok();
     }
@@ -115,24 +121,27 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarAerolineasDescendente() {
-        return Retorno.noImplementada();
+        StringBuilder mostrarLista = new StringBuilder();
+        Lista<Aerolinea> aerolineas = arbolAerolineas.obtenerDecreciente();
+
+        for(int i=0; i < aerolineas.largo(); i++){
+            Aerolinea aerolinea = aerolineas.get(i);
+            if(aerolinea != null){
+                mostrarLista.append(aerolinea);
+            }else{
+                break;
+            }
+        }
+        if(mostrarLista.length() > 0){
+            mostrarLista.setLength(mostrarLista.length()-1);
+        }
+
+        return Retorno.ok(mostrarLista.toString());
     }
 
     @Override
     public Retorno registrarAeropuerto(String codigo, String nombre) {
-        if (maxAeropuertos==0){
-    return Retorno.error1("");
-} else if (codigo==null || codigo.isEmpty() || nombre==null || nombre.isEmpty()){
-    return  Retorno.error2("");
-}
-Aeropuerto aereo=new Aeropuerto(codigo,nombre);
-      if(arbolAeropuertos.existe(aereo)){
-          return Retorno.error3("");
-      }else {
-          arbolAeropuertos.agregar(aereo);
-          maxAeropuertos--;
-          return Retorno.ok();
-      }
+        return Retorno.noImplementada();
     }
 
     @Override

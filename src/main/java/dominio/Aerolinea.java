@@ -11,7 +11,7 @@ public class Aerolinea implements Comparable<Aerolinea> {
     private String nombre;
 
     //Ctor
-    public Aerolinea(String codigo, String nombre){
+    public Aerolinea(String codigo, String nombre) {
         this.codigo = codigo;
         this.nombre = nombre;
     }
@@ -20,6 +20,7 @@ public class Aerolinea implements Comparable<Aerolinea> {
     public String getCodigo() {
         return codigo;
     }
+
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
@@ -35,5 +36,10 @@ public class Aerolinea implements Comparable<Aerolinea> {
     @Override
     public int compareTo(Aerolinea otraAerolinea) {
         return this.codigo.compareTo(otraAerolinea.getCodigo());
+    }
+
+    @Override
+    public String toString(){
+        return codigo + ";" + nombre + "|";
     }
 }

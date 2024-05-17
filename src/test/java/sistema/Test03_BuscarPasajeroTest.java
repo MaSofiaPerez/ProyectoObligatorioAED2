@@ -59,22 +59,22 @@ public class Test03_BuscarPasajeroTest {
     void deberiaEncontrarPasajero() {
         retorno = sistema.buscarPasajero("4.685.375-3");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("4.685.375-3;Juliana;1234;ESTANDAR", retorno.getValorString());
+        assertEquals("4.685.375-3;Juliana;1234;Estándar", retorno.getValorString());
         assertEquals(0, retorno.getValorInteger());
 
         retorno = sistema.buscarPasajero("5.135.139-2");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("5.135.139-2;Juliana;3456;PLATINO", retorno.getValorString());
+        assertEquals("5.135.139-2;Juliana;3456;Platinno", retorno.getValorString());
         assertEquals(1, retorno.getValorInteger());
 
         retorno = sistema.buscarPasajero("5.888.365-4");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("5.888.365-4;Alejandra;5634;FRECUENTE", retorno.getValorString());
+        assertEquals("5.888.365-4;Alejandra;5634;Frecuente", retorno.getValorString());
         assertEquals(2, retorno.getValorInteger());
 
         retorno = sistema.buscarPasajero("5.447.365-1");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("5.447.365-1;Gustavo;23456;ESTANDAR", retorno.getValorString());
+        assertEquals("5.447.365-1;Gustavo;23456;Estándar", retorno.getValorString());
         assertEquals(3, retorno.getValorInteger());
     }
 }
