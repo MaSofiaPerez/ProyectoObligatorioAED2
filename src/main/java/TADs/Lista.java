@@ -13,6 +13,16 @@ public class Lista<T> {
     public int largo() {
         return cantidad;
     }
+ public T get(int posactual) {
+        if (posactual < 0 || posactual >= cantidad) {
+           return null;
+        }
+        Nodo<T> actual = inicio;
+        for (int i = 0; i < posactual; i++) {
+            actual = actual.getSig();
+        }
+        return actual.getDato();
+    }
 
     public boolean existe(T dato) {
         return existeRec(inicio, dato);
