@@ -23,7 +23,26 @@ public class Lista<T> {
         }
         return actual.getDato();
     }
-
+    public void agregarFinal(T dato) {
+        Nodo<T> nuevoNodo = new Nodo<>(dato);
+        if (this.estaVacia()) {
+            this.inicio = nuevoNodo;
+        } else {
+            Nodo<T> actual = this.inicio;
+            while (actual.getSig() != null) {
+                actual = actual.getSig();
+            }
+            actual.setSig(nuevoNodo);
+        }
+        this.cantidad++;
+    }
+    private boolean estaVacia() {
+        if (inicio==null)
+            return true;
+        else {
+            return false;
+        }
+    }
     public boolean existe(T dato) {
         return existeRec(inicio, dato);
     }
