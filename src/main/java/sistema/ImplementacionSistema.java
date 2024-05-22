@@ -6,11 +6,15 @@ import TADs.*;
 public class ImplementacionSistema implements Sistema {
 
     private ABB<Pasajero> arbolPasajeros;
+    private ABB<Categoria> pasajerosEstandares;
+    private ABB<Categoria> pasajerosFrencuentes;
+    private ABB<Categoria> pasajerosPlatinos;
     private ABB<Aerolinea> arbolAerolineas;
     private ABB<Aeropuerto> arbolAeropuertos;
     private int maxAeropuertos;
     private int maxAerolineas;
-    private  ABBCategoria arbolCategoria;
+    private int cantidadAerolineasRegistradas;
+
 
     @Override
     public Retorno inicializarSistema(int maxAeropuertos, int maxAerolineas) {
@@ -23,9 +27,7 @@ public class ImplementacionSistema implements Sistema {
         this.maxAerolineas = maxAerolineas;
         this.maxAeropuertos = maxAeropuertos;
         arbolPasajeros = new ABB<Pasajero>();
-        arbolAeropuertos=new ABB<Aeropuerto>();
-        arbolAerolineas = new ABB<Aerolinea>();
-        arbolCategoria= new ABBCategoria();
+        arbolAerolineas=new ABB<Aerolinea>();
         return Retorno.ok();
 
     }
@@ -41,7 +43,6 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error3("");
         }else {
             arbolPasajeros.agregar(p);
-             arbolCategoria.agregarPasajero(p,p.getCategoria());
             return Retorno.ok();
         }
 
@@ -59,83 +60,58 @@ public class ImplementacionSistema implements Sistema {
         }else {
             p = arbolPasajeros.obtener(p);
             String datosPasajero = p.toString();
-            //falta corregir la devolucion de elementos que recorrio y el | del final
-            return Retorno.ok(0, p.toString());
+            return Retorno.ok(arbolPasajeros.getRecorridos(), datosPasajero);
         }
     }
 
     @Override
     public Retorno listarPasajerosAscendente() {
         StringBuilder mostrarLista= new StringBuilder();
-        Lista<Pasajero> pasajeros =  arbolPasajeros.obtenerCreciente();
+        Lista<Pasajero> pasajeros = arbolPasajeros.listarAsc();
         for (int i = 0; i < pasajeros.largo(); i++) {
-            Pasajero pasajero = pasajeros.get(i);
-            if(pasajero!=null){
-                mostrarLista.append(pasajero) ;
-            }else {
-                break;
+            Pasajero p = pasajeros.get(i);
+            mostrarLista.append(p.toString());
+            if(i<pasajeros.largo() - 1){
+                mostrarLista.append("|");
             }
-        }
-        if(mostrarLista.length() > 0){
-            mostrarLista.setLength(mostrarLista.length()-1);
-        }
-
-       return Retorno.ok(mostrarLista.toString());
-    }
-
-    @Override
-    public Retorno listarPasajerosPorCategoria(Categoria categoria) {
-        ABB<Pasajero> arbolPasajeroCategoria = arbolCategoria.obtenerArbol(categoria);
-        StringBuilder mostrarLista = new StringBuilder();
-        Lista<Pasajero> pasajeros = arbolPasajeroCategoria.obtenerCreciente();
-        for (int i = 0; i < pasajeros.largo(); i++) {
-            Pasajero pasajero = pasajeros.get(i);
-            if (pasajero != null) {
-                mostrarLista.append(pasajero);
-            } else {
-                break;
-            }
-        }
-        if(mostrarLista.length() > 0){
-            mostrarLista.setLength(mostrarLista.length()-1);
         }
         return Retorno.ok(mostrarLista.toString());
     }
 
     @Override
+    public Retorno listarPasajerosPorCategoria(Categoria categoria) {
+        return Retorno.noImplementada();
+    }
+
+    @Override
     public Retorno registrarAerolinea(String codigo, String nombre) {
-         if(maxAerolineas==0){
+         if(cantidadAerolineasRegistradas == maxAerolineas){
             return Retorno.error1(""); 
         } else if (codigo==null || codigo.isEmpty() || nombre==null || nombre.isEmpty()){
             return  Retorno.error2("");
-        }
-        Aerolinea aerolinea = new Aerolinea(codigo,nombre);
-        if (arbolAerolineas.existe(aerolinea)){
-            return Retorno.error3("");
-        }else {
-            arbolAerolineas.agregar(aerolinea);
-            maxAerolineas--;
-        return Retorno.ok();
-    }
+        }else{
+             Aerolinea aerolinea = new Aerolinea(codigo,nombre);
+             if (arbolAerolineas.existe(aerolinea)){
+                 return Retorno.error3("");
+             }else {
+                 arbolAerolineas.agregar(aerolinea);
+                 cantidadAerolineasRegistradas++;
+                 return Retorno.ok();
+             }
+         }
     }
 
     @Override
     public Retorno listarAerolineasDescendente() {
         StringBuilder mostrarLista = new StringBuilder();
-        Lista<Aerolinea> aerolineas = arbolAerolineas.obtenerDecreciente();
-
-        for(int i=0; i < aerolineas.largo(); i++){
+        Lista<Aerolinea> aerolineas = arbolAerolineas.listarDes();
+        for (int i = 0; i < aerolineas.largo(); i++) {
             Aerolinea aerolinea = aerolineas.get(i);
-            if(aerolinea != null){
-                mostrarLista.append(aerolinea);
-            }else{
-                break;
+            mostrarLista.append(aerolinea.toString());
+            if(i<aerolineas.largo() - 1){
+                mostrarLista.append("|");
             }
         }
-        if(mostrarLista.length() > 0){
-            mostrarLista.setLength(mostrarLista.length()-1);
-        }
-
         return Retorno.ok(mostrarLista.toString());
     }
 

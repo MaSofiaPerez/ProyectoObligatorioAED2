@@ -16,7 +16,6 @@ public class Test03_BuscarPasajeroTest {
     void setUp() {
         sistema = new ImplementacionSistema();
         sistema.inicializarSistema(10,10);
-
         sistema.registrarPasajero(new String("4.685.375-3"), new String("Juliana"),  new String("1234"), Categoria.ESTANDAR);
         sistema.registrarPasajero(new String("5.135.139-2"), new String("Juliana"),  new String("3456"), Categoria.PLATINO);
         sistema.registrarPasajero(new String("5.888.365-4"), new String("Alejandra"),  new String("5634"), Categoria.FRECUENTE);
@@ -64,7 +63,7 @@ public class Test03_BuscarPasajeroTest {
 
         retorno = sistema.buscarPasajero("5.135.139-2");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("5.135.139-2;Juliana;3456;Platinno", retorno.getValorString());
+        assertEquals("5.135.139-2;Juliana;3456;Platino", retorno.getValorString());
         assertEquals(1, retorno.getValorInteger());
 
         retorno = sistema.buscarPasajero("5.888.365-4");
