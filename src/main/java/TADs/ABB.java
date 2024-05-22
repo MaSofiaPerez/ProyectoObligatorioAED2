@@ -48,6 +48,7 @@ public class ABB<T extends Comparable<T>> {
         }
     }
     public T obtener(T dato) {
+        recorridos=0;
         return this.obtener(this.raiz, dato);
     }
 
