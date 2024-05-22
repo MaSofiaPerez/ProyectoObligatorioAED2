@@ -6,14 +6,14 @@ import TADs.*;
 public class ImplementacionSistema implements Sistema {
 
     private ABB<Pasajero> arbolPasajeros;
-    private ABB<Categoria> pasajerosEstandares;
-    private ABB<Categoria> pasajerosFrencuentes;
-    private ABB<Categoria> pasajerosPlatinos;
     private ABB<Aerolinea> arbolAerolineas;
     private ABB<Aeropuerto> arbolAeropuertos;
     private int maxAeropuertos;
     private int maxAerolineas;
     private int cantidadAerolineasRegistradas;
+    private ABB<Pasajero> arbolCategoriaPlatino;
+    private ABB<Pasajero> arbolCategoriaFrecuente;
+    private ABB<Pasajero> arbolCategoriaEstandar;
 
 
     @Override
@@ -28,6 +28,9 @@ public class ImplementacionSistema implements Sistema {
         this.maxAeropuertos = maxAeropuertos;
         arbolPasajeros = new ABB<Pasajero>();
         arbolAerolineas=new ABB<Aerolinea>();
+        arbolCategoriaPlatino = new ABB<Pasajero>() ;
+        arbolCategoriaFrecuente = new ABB<Pasajero>();
+        arbolCategoriaEstandar = new ABB<Pasajero>();
         return Retorno.ok();
 
     }
@@ -43,6 +46,16 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error3("");
         }else {
             arbolPasajeros.agregar(p);
+            switch (p.getCategoria()) {
+                case PLATINO:
+                    arbolCategoriaPlatino.agregar(p);
+                    break;
+                case FRECUENTE:
+                    arbolCategoriaFrecuente.agregar(p);
+                    break;
+                case ESTANDAR:
+                    arbolCategoriaEstandar.agregar(p);
+        }
             return Retorno.ok();
         }
 
@@ -80,7 +93,27 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarPasajerosPorCategoria(Categoria categoria) {
-        return Retorno.noImplementada();
+      StringBuilder mostrarLista= new StringBuilder();
+        Lista<Pasajero> pasajeros =new Lista<Pasajero>();
+        switch (categoria) {
+            case PLATINO:
+                pasajeros= arbolCategoriaPlatino.listarAsc();
+                break;
+            case FRECUENTE:
+                pasajeros= arbolCategoriaFrecuente.listarAsc();
+                break;
+            case ESTANDAR:
+                pasajeros= arbolCategoriaEstandar.listarAsc();
+        }
+
+        for (int i = 0; i < pasajeros.largo(); i++) {
+            Pasajero p = pasajeros.get(i);
+            mostrarLista.append(p.toString());
+            if(i<pasajeros.largo() - 1){
+                mostrarLista.append("|");
+            }
+            }
+        return Retorno.ok(mostrarLista.toString());
     }
 
     @Override
