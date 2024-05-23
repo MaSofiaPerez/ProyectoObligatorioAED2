@@ -1,7 +1,6 @@
 package dominio;
 
 public class Conexion {
-
     private String codigoAeropuertoOrigen;
     private String codigoAeropuertoDestino;
     private double kilometro;
@@ -35,5 +34,6 @@ public class Conexion {
     public void setCodigoAeropuertoDestino(String codigoAeropuertoDestino) {
         this.codigoAeropuertoDestino = codigoAeropuertoDestino;
     }
+
 
 }

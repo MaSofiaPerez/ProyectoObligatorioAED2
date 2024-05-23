@@ -2,8 +2,7 @@ package TADs;
 
 import java.util.Iterator;
 
-public class Lista<T> implements Iterable<T>{
-
+public class Lista<T> implements Iterable<T> {
     private Nodo<T> inicio;
     private int cantidad;
 
@@ -11,12 +10,14 @@ public class Lista<T> implements Iterable<T>{
         inicio = new Nodo<>(dato, inicio);
         cantidad++;
     }
+
     public int largo() {
         return cantidad;
     }
+
     public T get(int posactual) {
         if (posactual < 0 || posactual >= cantidad) {
-           return null;
+            return null;
         }
         Nodo<T> actual = inicio;
         for (int i = 0; i < posactual; i++) {
@@ -24,6 +25,7 @@ public class Lista<T> implements Iterable<T>{
         }
         return actual.getDato();
     }
+
     public void agregarFinal(T dato) {
         Nodo<T> nuevoNodo = new Nodo<>(dato);
         if (this.estaVacia()) {
@@ -37,33 +39,46 @@ public class Lista<T> implements Iterable<T>{
         }
         this.cantidad++;
     }
+
     private boolean estaVacia() {
-        if (inicio==null)
-            return true;
-        else {
-            return false;
-        }
+        return inicio == null;
     }
+
     public boolean existe(T dato) {
         return existeRec(inicio, dato);
     }
+
     private boolean existeRec(Nodo<T> nodo, T dato) {
         if (nodo == null) {
             return false;
         }
         return nodo.getDato().equals(dato) || existeRec(nodo.getSig(), dato);
     }
+
+    private boolean existeIter(T dato) {
+        Nodo<T> aux = inicio;
+        while (aux != null) {
+            if (aux.getDato().equals(dato)) {
+                return true;
+            }
+            aux = aux.getSig();
+        }
+        return false;
+    }
+
     public void mostrar() {
         System.out.println();
         //mostrarIter();
         mostrarRec(inicio);
     }
+
     private void mostrarRec(Nodo<T> nodo) {
         if (nodo != null) {
             mostrarRec(nodo.getSig());
             System.out.println(nodo.getDato());
         }
     }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
@@ -83,9 +98,8 @@ public class Lista<T> implements Iterable<T>{
             }
 
             @Override
-            public void remove(){
+            public void remove() {
             }
-
         };
     }
 

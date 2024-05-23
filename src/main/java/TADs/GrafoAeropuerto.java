@@ -1,6 +1,4 @@
 package TADs;
-
-
 import TADs.cola.Cola;
 import dominio.Aeropuerto;
 import dominio.Conexion;
@@ -26,14 +24,18 @@ public class GrafoAeropuerto {
         }
     }
 
-    public boolean esLleno() { return cantidad == topeAeropuertos;}
+    public boolean esLleno() {
+        return cantidad == topeAeropuertos;
+    }
 
-    public boolean esVacio() { return cantidad == 0; }
+    public boolean esVacio() {
+        return cantidad == 0;
+    }
 
     // PRE: !esLleno()
     private int obtenerPosLibre() {
         for (int i = 0; i < topeAeropuertos; i++) {
-            if(vertices[i] == null){
+            if (vertices[i] == null) {
                 return i;
             }
         }
@@ -41,9 +43,9 @@ public class GrafoAeropuerto {
     }
 
     private int obtenerPos(Aeropuerto vertice) {
-        if(vertice != null){
+        if (vertice != null) {
             for (int i = 0; i < topeAeropuertos; i++) {
-                if(vertice.equals(vertices[i])){
+                if (vertice.equals(vertices[i])) {
                     return i;
                 }
             }
@@ -51,9 +53,10 @@ public class GrafoAeropuerto {
         }
         return -1;
     }
-    public Aeropuerto obtenerVertice(String codigo){
+
+    public Aeropuerto obtenerVertice(String codigo) {
         for (int i = 0; i < topeAeropuertos; i++) {
-            if(vertices[i] != null && codigo.equals(vertices[i].getCodigo())){
+            if (vertices[i] != null && codigo.equals(vertices[i].getCodigo())) {
                 return vertices[i];
             }
         }
@@ -110,66 +113,10 @@ public class GrafoAeropuerto {
         Lista<Aeropuerto> retorno = new Lista<>();
         int pos = obtenerPos(vert);
         for (int i = 0; i < topeAeropuertos; i++) {
-            if(matAdy[pos][i].isExiste()){
+            if (matAdy[pos][i].isExiste()) {
                 retorno.agregar(vertices[i]);
             }
         }
         return retorno;
     }
-
-    // Pre: existeVertice(vert)
-    public Lista<Aeropuerto> verticesIncidentes(Aeropuerto vert) {
-        Lista<Aeropuerto> retorno = new Lista<>();
-        int pos = obtenerPos(vert);
-        for (int i = 0; i < topeAeropuertos; i++) {
-            if(matAdy[i][pos].isExiste()){
-                retorno.agregar(vertices[i]);
-            }
-        }
-        return retorno;
-    }
-
-    public void dfs(Aeropuerto vert){
-        int pos = obtenerPos(vert);
-        boolean[] visitados = new boolean[topeAeropuertos];
-        dfsRec(pos, visitados);
-    }
-    private void dfsRec(int pos, boolean[] visitados){
-        System.out.println(vertices[pos]);
-        visitados[pos] = true;
-        for (int i = 0; i < topeAeropuertos; i++) {
-            if(matAdy[pos][i].isExiste() && !visitados[i]){
-                dfsRec(i, visitados);
-            }
-        }
-    }
-    public void bfs(Aeropuerto vert) {
-        Cola<Tupla> cola = new Cola<>();
-        boolean[] visitados = new boolean[topeAeropuertos];
-        int inicio = obtenerPos(vert);
-
-        visitados[inicio] = true;
-        cola.encolar(new Tupla(inicio, 0));
-
-        while (!cola.isEmpty()) {
-            Tupla aux = cola.desencolar();
-            int pos = aux.getPos();
-            int nivel = aux.getNivel();
-            System.out.println(vertices[pos] + " - " + nivel);
-
-            for (int j = 0; j < topeAeropuertos; j++) {
-                if (matAdy[pos][j].isExiste() && !visitados[j]) {
-                    visitados[j] = true;
-                    cola.encolar(new Tupla(j, nivel + 1));
-                }
-            }
-        }
-    }
-
-
-
-
-
-
-
 }
