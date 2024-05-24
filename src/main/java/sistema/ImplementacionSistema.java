@@ -192,7 +192,36 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarVuelo(String codigoCiudadOrigen, String codigoAeropuertoDestino, String codigoDeVuelo, double combustible, double minutos, double costoEnDolares, String codigoAerolinea) {
-        return Retorno.noImplementada();
+        boolean a=false;
+        Vuelo v=new Vuelo(codigoAeropuertoOrigen,codigoAeropuertoDestino,codigoDeVuelo,combustible,minutos,costoEnDolares,codigoAerolinea);
+        if(!v.validarDoubles(combustible, minutos, costoEnDolares)){
+            return Retorno.error1("");
+        } else if (!v.validarStrings(codigoAeropuertoOrigen,codigoAeropuertoDestino,codigoDeVuelo,codigoAerolinea)) {
+            return Retorno.error2("");
+        } if (!aeropuertosConexiones.existeVertice(codigoAeropuertoOrigen)) {
+            return Retorno.error3("");
+        } else if (!aeropuertosConexiones.existeVertice(codigoAeropuertoDestino)) {
+            return Retorno.error4("");
+        }
+        Lista<Aerolinea> aerolineas = arbolAerolineas.listarDes();
+        for (int i = 0; i < aerolineas.largo(); i++) {
+            Aerolinea aerolinea = aerolineas.get(i);
+
+            if (aerolinea.getCodigo().equals(codigoAerolinea)) {
+              a=true;
+              break;
+            }}
+        if(!a){
+            return Retorno.error5("");
+        }
+          if (!aeropuertosConexiones.existeArista(codigoAeropuertoOrigen, codigoAeropuertoDestino)) {
+            return Retorno.error6("");
+        }
+          if(!aeropuertosConexiones.agregarVueloenArista(v)){
+           return    Retorno.error7("");
+          }
+          return Retorno.ok();
+    }
     }
 
     @Override
