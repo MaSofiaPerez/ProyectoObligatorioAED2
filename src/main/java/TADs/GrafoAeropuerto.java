@@ -119,4 +119,46 @@ public class GrafoAeropuerto {
         }
         return retorno;
     }
+      public Aeropuerto obtenerVertice(String codigo) {
+        for (int i = 0; i < topeAeropuertos; i++) {
+            if (vertices[i] != null && codigo.equals(vertices[i].getCodigo())) {
+                return vertices[i];
+            }
+        }
+        return null;
+    }
+    public boolean existeVertice(String vert) {
+        return obtenerPosporString(vert) != -1;
+    }
+    
+  private int obtenerPosporString(String vertice) {
+        if (vertice != null) {
+            for (int i = 0; i < topeAeropuertos; i++) {
+               Aeropuerto a= vertices[i];
+                if (a!=null && a.getCodigo().equals(vertice) ) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        return -1;
+    }
+  public boolean existeArista(String origen, String destino) {
+        int posOrigen = obtenerPosporString(origen);
+        int posDestino = obtenerPosporString(destino);
+        return matAdy[posOrigen][posDestino].isExiste();
+    }
+    
+    public boolean agregarVueloenArista(Vuelo vuelo) {
+        int posOrigen = obtenerPosporString(vuelo.getCodigoAeropuertoOrigen());
+        int posDestino = obtenerPosporString(vuelo.getCodigoAeropuertoDestino());
+      Lista<Vuelo> v = matAdy[posOrigen][posDestino].getVuelos();
+       for (Vuelo elvuelo:v){
+           if(elvuelo.getCodigoVuelo().equals(vuelo.getCodigoVuelo())){
+               return false;
+           }
+       }
+            matAdy[posOrigen][posDestino].setVuelos(vuelo);
+            return true;
+    }
 }
