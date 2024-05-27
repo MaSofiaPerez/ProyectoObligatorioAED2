@@ -6,7 +6,7 @@ public class Arista {
 
     private boolean existe;
     private double peso;
-      private Lista<Vuelo> vuelos;
+    private Lista<Vuelo> vuelos;
 
     public Arista() {
         this.existe = false;
@@ -22,13 +22,12 @@ public Lista<Vuelo> getVuelos() {
         return vuelos;
     }
 
-    public void setVuelos(Vuelo vuelos) {
-        this.vuelos.agregar(vuelos) ;
+    public void setVuelos(Vuelo vuelo) {
+        this.vuelos.agregar(vuelo) ;
     }
     public boolean isExiste() {
         return existe;
     }
-
     public void setExiste(boolean existe) {
         this.existe = existe;
     }

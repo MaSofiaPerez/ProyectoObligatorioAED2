@@ -4,6 +4,8 @@ public class Conexion {
     private String codigoAeropuertoOrigen;
     private String codigoAeropuertoDestino;
     private double kilometro;
+
+
     public Conexion(String codigoAeroOrigen, String codigoAeroDestino,
                     double kilometros) {
         this.codigoAeropuertoDestino = codigoAeroDestino;

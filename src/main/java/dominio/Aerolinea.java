@@ -42,4 +42,14 @@ public class Aerolinea implements Comparable<Aerolinea> {
     public String toString(){
         return codigo + ";" + nombre;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aerolinea aerolinea = (Aerolinea) o;
+        return Objects.equals(codigo, aerolinea.codigo);
+    }
+
 }
+

@@ -119,19 +119,11 @@ public class GrafoAeropuerto {
         }
         return retorno;
     }
-      public Aeropuerto obtenerVertice(String codigo) {
-        for (int i = 0; i < topeAeropuertos; i++) {
-            if (vertices[i] != null && codigo.equals(vertices[i].getCodigo())) {
-                return vertices[i];
-            }
-        }
-        return null;
-    }
-    public boolean existeVertice(String vert) {
+   /* public boolean existeVertice(String vert) {
         return obtenerPosporString(vert) != -1;
-    }
+    }*/
     
-  private int obtenerPosporString(String vertice) {
+  /*private int obtenerPosporString(String vertice) {
         if (vertice != null) {
             for (int i = 0; i < topeAeropuertos; i++) {
                Aeropuerto a= vertices[i];
@@ -147,10 +139,29 @@ public class GrafoAeropuerto {
         int posOrigen = obtenerPosporString(origen);
         int posDestino = obtenerPosporString(destino);
         return matAdy[posOrigen][posDestino].isExiste();
-    }
+    }*/
     
     public boolean agregarVueloenArista(Vuelo vuelo) {
-        int posOrigen = obtenerPosporString(vuelo.getCodigoAeropuertoOrigen());
+        String codigoAeropuertoOrigen = vuelo.getCodigoAeropuertoOrigen();
+        String codigoAeropuertoDestino = vuelo.getCodigoAeropuertoDestino();
+        Aeropuerto aeropuertoOrigen = obtenerVertice(codigoAeropuertoOrigen);
+        Aeropuerto aeropuertoDestino = obtenerVertice(codigoAeropuertoDestino);
+        int posOrigen = obtenerPos(aeropuertoOrigen);
+        int posDestino = obtenerPos(aeropuertoDestino);
+        if(existeArista(aeropuertoOrigen, aeropuertoDestino)) {
+            Arista arista = matAdy[posOrigen][posDestino];
+            Lista<Vuelo> vuelos = arista.getVuelos();
+            for (Vuelo v : vuelos) {
+                if (v.getCodigoVuelo().equals(vuelo.getCodigoVuelo())) {
+                    return false;
+                }
+            }
+            arista.setVuelos(vuelo);
+            return true;
+        }
+        return false;
+        }
+        /*int posOrigen = obtenerPosporString(vuelo.getCodigoAeropuertoOrigen());
         int posDestino = obtenerPosporString(vuelo.getCodigoAeropuertoDestino());
       Lista<Vuelo> v = matAdy[posOrigen][posDestino].getVuelos();
        for (Vuelo elvuelo:v){
@@ -160,5 +171,38 @@ public class GrafoAeropuerto {
        }
             matAdy[posOrigen][posDestino].setVuelos(vuelo);
             return true;
+    }*/
+        public Lista<Aeropuerto> bfs(String codigoAeropuertoOrigen, int cantidad, String codigoAerolinea ) {
+            Cola<Tupla> cola = new Cola<>();
+            boolean[] visitados = new boolean[topeAeropuertos];
+            Aeropuerto aeropuertoOrigen = obtenerVertice(codigoAeropuertoOrigen);
+            int inicio = obtenerPos(aeropuertoOrigen);
+            Lista<Aeropuerto> aeropuertosAlcanzables = new Lista<>();
+
+            aeropuertosAlcanzables.agregarOrdenado(aeropuertoOrigen);
+
+            visitados[inicio] = true;
+            cola.encolar(new Tupla(inicio, 0));
+
+            while (!cola.isEmpty()) {
+                Tupla aux = cola.desencolar();
+                int pos = aux.getPos();
+                int nivel = aux.getNivel();
+
+                if (nivel == cantidad) {
+                    continue;
+                }
+
+                Aeropuerto aeropuertoActual = vertices[pos];
+                for (int i = 0; i < topeAeropuertos; i++) {
+                    if (matAdy[pos][i].isExiste() && !visitados[i]) {
+                        visitados[i] = true;
+                        Aeropuerto aeropuertoDestino = vertices[i];
+                        aeropuertosAlcanzables.agregarOrdenado(aeropuertoDestino);
+                        cola.encolar(new Tupla(i, nivel + 1));
+                    }
+                }
+            }
+            return aeropuertosAlcanzables;
+        }
     }
-}

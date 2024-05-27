@@ -11,6 +11,24 @@ public class Lista<T> implements Iterable<T> {
         cantidad++;
     }
 
+    public void agregarOrdenado(T dato){
+        Nodo<T> nuevoNodo = new Nodo<>(dato);
+        if (inicio == null || ((Comparable<T>) dato).compareTo(inicio.getDato()) < 0) {
+            nuevoNodo.setSig(inicio);
+            inicio = nuevoNodo;
+        } else {
+            Nodo<T> anterior = null;
+            Nodo<T> actual = inicio;
+            while (actual != null && ((Comparable<T>) dato).compareTo(actual.getDato()) >= 0) {
+                anterior = actual;
+                actual = actual.getSig();
+            }
+            anterior.setSig(nuevoNodo);
+            nuevoNodo.setSig(actual);
+        }
+        cantidad++;
+    }
+
     public int largo() {
         return cantidad;
     }
