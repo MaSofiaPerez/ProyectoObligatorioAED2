@@ -6,7 +6,6 @@ public class Arista {
 
     private boolean existe;
     private double pesoEnKm;
-    private double pesoEnMin;
     private Lista<Vuelo> vuelos;
 
     public Arista() {
@@ -14,10 +13,10 @@ public class Arista {
         this.vuelos = new Lista<>();
     }
 
-    public Arista(double pesoEnKm, double pesoEnMin) {
+    public Arista(double pesoEnKm) {
         this.existe = true;
         this.pesoEnKm = pesoEnKm;
-        this.pesoEnMin = pesoEnMin;
+
     }
 public Lista<Vuelo> getVuelos() {
         return vuelos;
@@ -34,9 +33,14 @@ public Lista<Vuelo> getVuelos() {
     }
 
     public double getPesoEnMin() {
-        return pesoEnMin;
+        double minDuracion = Double.POSITIVE_INFINITY;
+        for (Vuelo vuelo : vuelos) {
+            if (vuelo.getMinutos() < minDuracion) {
+                minDuracion = vuelo.getMinutos();
+            }
+        }
+        return minDuracion == Double.POSITIVE_INFINITY ? 0 : minDuracion;
     }
-    public void setPesoEnMin(double pesoEnMin){ this.pesoEnMin = pesoEnMin;}
 
     public double getPesoEnKm() {
         return pesoEnKm;

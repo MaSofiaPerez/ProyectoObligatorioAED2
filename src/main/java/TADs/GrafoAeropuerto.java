@@ -20,7 +20,7 @@ public class GrafoAeropuerto {
         this.matAdy = new Arista[topeAeropuertos][topeAeropuertos];
         for (int i = 0; i < topeAeropuertos; i++) {
             for (int j = 0; j < topeAeropuertos; j++) {
-                if(usarKm){
+                if (usarKm) {
 
                 }
                 matAdy[i][j] = new Arista();
@@ -46,7 +46,7 @@ public class GrafoAeropuerto {
         return -1;
     }
 
-    private int obtenerPos(Aeropuerto vertice) {
+    public int obtenerPos(Aeropuerto vertice) {
         if (vertice != null) {
             for (int i = 0; i < topeAeropuertos; i++) {
                 if (vertice.equals(vertices[i])) {
@@ -179,48 +179,40 @@ public class GrafoAeropuerto {
         return aeropuertosAlcanzables;
     }
 
-    public Tupla dijkstra(Aeropuerto vOrigen, Aeropuerto vDestino, boolean enKm) {
-        int posOrigen = obtenerPos(vOrigen);
-        int posDestino = obtenerPos(vDestino);
+    public Tupla dijkstra(Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino, boolean enKm) {
+        int posOrigen = obtenerPos(aeropuertoOrigen);
+        int posDestino = obtenerPos(aeropuertoDestino);
 
-        //creamos los arrays
         boolean[] visitados = new boolean[topeAeropuertos];
         double[] costos = new double[topeAeropuertos];
         Aeropuerto[] anterior = new Aeropuerto[topeAeropuertos];
-        //inicializamos los array no booleanos
         for (int i = 0; i < topeAeropuertos; i++) {
             costos[i] = Double.POSITIVE_INFINITY;
             anterior[i] = null;
         }
-        // marcar el origen con distancia cero
         costos[posOrigen] = 0;
-        //Loop (cantidad de vertices)
         for (int v = 0; v < cantidad; v++) {
-            //1)Obtener el vertice no visitado de menor costo (si hay varios cualquiera)
             int pos = obtenerSiguienteVerticeNoVisitadoDeMenorCosto(costos, visitados);
-            // hay que agregarle un parche para los grafos que no sean conexos
-            if (pos != -1) {// si no encontró algun nodo si la posicion es -1 no tengo un camino
-                //2)Visitarlo
-                visitados[pos] = true;
-                //3)Evaluar si tengo que actualizar el costo de los adyacentes NO VISITADOS
-                for (int j = 0; j < topeAeropuertos; j++) {
-                    if (matAdy[pos][j].isExiste() && !visitados[j]) { // si no esta visitado y tengo arista
-                        double distanciaNueva;
-                        if(enKm){
-                            distanciaNueva = costos[pos] + matAdy[pos][j].getPesoEnKm(); // calculo la nueva distancia costo mas arista
-                        }else{
-                            distanciaNueva = costos[pos] + matAdy[pos][j].getPesoEnMin();
-                        }
-                        if (distanciaNueva < costos[j]) { // encontre una forma mas economica de llegar a j
-                            costos[j] = distanciaNueva;
-                            anterior[j] = vertices[pos];// establezco el anterior de j - aca es que puedo poner pos si es de int// actualizo
-                        }
-
+            if (pos == -1) {
+                break;
+            }
+            visitados[pos] = true;
+            for (int j = 0; j < topeAeropuertos; j++) {
+                if (matAdy[pos][j].isExiste() && !visitados[j]) {
+                    double distancia;
+                    if (enKm) {
+                        distancia = costos[pos] + matAdy[pos][j].getPesoEnKm();
+                    } else {
+                        distancia = costos[pos] + matAdy[pos][j].getPesoEnMin();
+                    }
+                    if (distancia < costos[j]) {
+                        costos[j] = distancia;
+                        anterior[j] = vertices[pos];
                     }
                 }
             }
         }
-        return new Tupla(costos[posDestino], anterior); // en el obl tiene que retornar tupla en un int o double  el destino y en un string tenga el camino
+        return new Tupla(costos[posDestino], anterior);
     }
 
     private int obtenerSiguienteVerticeNoVisitadoDeMenorCosto(double[] costos, boolean[] visitados) {
@@ -231,14 +223,8 @@ public class GrafoAeropuerto {
             if (!visitados[i] && costos[i] < min) {
                 min = costos[i];
                 posMin = i;
-
             }
-
         }
-
         return posMin;
-
-
     }
-
 }

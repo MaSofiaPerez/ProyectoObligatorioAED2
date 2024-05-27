@@ -275,20 +275,23 @@ public class ImplementacionSistema implements Sistema {
         if(costoTotalKm.getCosto() == Double.POSITIVE_INFINITY){
             return Retorno.error2("");
         }
-        StringBuilder camino = new StringBuilder();
-          Aeropuerto actual=null;
-        for(Aeropuerto aeropuerto: costoTotalKm.getAnterior()){
-            if(aeropuerto != null && aeropuerto!=actual){
-                actual=aeropuerto;
-                camino.append(aeropuerto.getCodigo())
-                        .append(";")
-                        .append(aeropuerto.getNombre())
-                        .append("|");
-            }
+
+        Lista<Aeropuerto> caminoLista = new Lista<>();
+        Aeropuerto actual = aeropuertoDestino;
+        while (actual != null && !actual.equals(aeropuertoOrigen)) {
+            caminoLista.agregar(actual);
+            actual = costoTotalKm.getAnterior()[aeropuertosConexiones.obtenerPos(actual)];
         }
-        camino.append(codigoAeropuertoDestino)
-                .append(";")
-                .append(aeropuertoDestino.getNombre());
+        caminoLista.agregar(aeropuertoOrigen);
+
+        StringBuilder camino = new StringBuilder();
+        for (Aeropuerto aeropuerto : caminoLista) {
+            camino.append(aeropuerto.getCodigo()).append(";").append(aeropuerto.getNombre()).append("|");
+        }
+
+        if (camino.length() > 0) {
+            camino.setLength(camino.length() - 1);
+        }
 
         return Retorno.ok((int) costoTotalKm.getCosto(), camino.toString());
     }
@@ -310,22 +313,25 @@ public class ImplementacionSistema implements Sistema {
         if(costoTotalKm.getCosto() == Double.POSITIVE_INFINITY){
             return Retorno.error2("");
         }
-        StringBuilder camino = new StringBuilder();
-         Aeropuerto actual=null;
-        for(Aeropuerto aeropuerto: costoTotalKm.getAnterior()){
-            if(aeropuerto != null && aeropuerto!=actual){
-                actual=aeropuerto;
-                camino.append(aeropuerto.getCodigo())
-                        .append(";")
-                        .append(aeropuerto.getNombre())
-                        .append("|");
-            }
-        }
-        camino.append(codigoAeropuertoDestino)
-                .append(";")
-                .append(aeropuertoDestino.getNombre());
 
-        return Retorno.ok((int) costoTotalKm.getCosto(), camino.toString());    }
+        Lista<Aeropuerto> caminoLista = new Lista<>();
+        Aeropuerto actual = aeropuertoDestino;
+        while (actual != null && !actual.equals(aeropuertoOrigen)) {
+            caminoLista.agregar(actual);
+            actual = costoTotalKm.getAnterior()[aeropuertosConexiones.obtenerPos(actual)];
+        }
+        caminoLista.agregar(aeropuertoOrigen);
+
+        StringBuilder camino = new StringBuilder();
+        for (Aeropuerto aeropuerto : caminoLista) {
+            camino.append(aeropuerto.getCodigo()).append(";").append(aeropuerto.getNombre()).append("|");
+        }
+
+        if (camino.length() > 0) {
+            camino.setLength(camino.length() - 1);
+        }
+
+        return Retorno.ok((int) costoTotalKm.getCosto(), camino.toString());}
 
 
 }
