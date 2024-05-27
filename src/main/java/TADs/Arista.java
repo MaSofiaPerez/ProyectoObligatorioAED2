@@ -5,18 +5,19 @@ import dominio.Vuelo;
 public class Arista {
 
     private boolean existe;
-    private double peso;
+    private double pesoEnKm;
+    private double pesoEnMin;
     private Lista<Vuelo> vuelos;
 
     public Arista() {
         this.existe = false;
-        this.peso = peso;
-         this.vuelos = new Lista<>();
+        this.vuelos = new Lista<>();
     }
 
-    public Arista(double unPeso) {
+    public Arista(double pesoEnKm, double pesoEnMin) {
         this.existe = true;
-        this.peso = unPeso;
+        this.pesoEnKm = pesoEnKm;
+        this.pesoEnMin = pesoEnMin;
     }
 public Lista<Vuelo> getVuelos() {
         return vuelos;
@@ -32,11 +33,16 @@ public Lista<Vuelo> getVuelos() {
         this.existe = existe;
     }
 
-    public double getPeso() {
-        return peso;
+    public double getPesoEnMin() {
+        return pesoEnMin;
+    }
+    public void setPesoEnMin(double pesoEnMin){ this.pesoEnMin = pesoEnMin;}
+
+    public double getPesoEnKm() {
+        return pesoEnKm;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setPesoEnKm(double pesoEnKm) {
+        this.pesoEnKm = pesoEnKm;
     }
 }

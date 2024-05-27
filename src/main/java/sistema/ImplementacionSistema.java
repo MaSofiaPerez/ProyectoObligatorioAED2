@@ -259,14 +259,69 @@ public class ImplementacionSistema implements Sistema {
 
 
     @Override
-    public Retorno viajeCostoMinimoKilometros(String codigoCiudadOrigen, String codigoCiudadDestino) {
-        return Retorno.noImplementada();
+    public Retorno viajeCostoMinimoKilometros(String codigoAeropuertoOrigen, String codigoAeropuertoDestino) {
+        if(codigoAeropuertoOrigen == null || codigoAeropuertoOrigen.isEmpty() || codigoAeropuertoDestino == null || codigoAeropuertoDestino.isEmpty()){
+            return Retorno.error1("");
+        }
+        Aeropuerto aeropuertoOrigen = aeropuertosConexiones.obtenerVertice(codigoAeropuertoOrigen);
+        Aeropuerto aeropuertoDestino = aeropuertosConexiones.obtenerVertice(codigoAeropuertoDestino);
+        if(!aeropuertosConexiones.existeVertice(aeropuertoOrigen)){
+            return Retorno.error3("");
+        }
+        if(!aeropuertosConexiones.existeVertice(aeropuertoDestino)){
+            return Retorno.error4("");
+        }
+        Tupla costoTotalKm = aeropuertosConexiones.dijkstra(aeropuertoOrigen, aeropuertoDestino, true);
+        if(costoTotalKm.getCosto() == Double.POSITIVE_INFINITY){
+            return Retorno.error2("");
+        }
+        StringBuilder camino = new StringBuilder();
+        for(Aeropuerto aeropuerto: costoTotalKm.getAnterior()){
+            if(aeropuerto != null){
+                camino.append(aeropuerto.getCodigo())
+                        .append(";")
+                        .append(aeropuerto.getNombre())
+                        .append("|");
+            }
+        }
+        camino.append(codigoAeropuertoDestino)
+                .append(";")
+                .append(aeropuertoDestino.getNombre());
+
+        return Retorno.ok((int) costoTotalKm.getCosto(), camino.toString());
     }
 
     @Override
     public Retorno viajeCostoMinimoEnMinutos(String codigoAeropuertoOrigen, String codigoAeropuertoDestino) {
-        return Retorno.noImplementada();
-    }
+        if(codigoAeropuertoOrigen == null || codigoAeropuertoOrigen.isEmpty() || codigoAeropuertoDestino == null || codigoAeropuertoDestino.isEmpty()){
+            return Retorno.error1("");
+        }
+        Aeropuerto aeropuertoOrigen = aeropuertosConexiones.obtenerVertice(codigoAeropuertoOrigen);
+        Aeropuerto aeropuertoDestino = aeropuertosConexiones.obtenerVertice(codigoAeropuertoDestino);
+        if(!aeropuertosConexiones.existeVertice(aeropuertoOrigen)){
+            return Retorno.error3("");
+        }
+        if(!aeropuertosConexiones.existeVertice(aeropuertoDestino)){
+            return Retorno.error4("");
+        }
+        Tupla costoTotalKm = aeropuertosConexiones.dijkstra(aeropuertoOrigen, aeropuertoDestino, false);
+        if(costoTotalKm.getCosto() == Double.POSITIVE_INFINITY){
+            return Retorno.error2("");
+        }
+        StringBuilder camino = new StringBuilder();
+        for(Aeropuerto aeropuerto: costoTotalKm.getAnterior()){
+            if(aeropuerto != null){
+                camino.append(aeropuerto.getCodigo())
+                        .append(";")
+                        .append(aeropuerto.getNombre())
+                        .append("|");
+            }
+        }
+        camino.append(codigoAeropuertoDestino)
+                .append(";")
+                .append(aeropuertoDestino.getNombre());
+
+        return Retorno.ok((int) costoTotalKm.getCosto(), camino.toString());    }
 
 
 }
