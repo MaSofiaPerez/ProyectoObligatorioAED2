@@ -276,8 +276,10 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error2("");
         }
         StringBuilder camino = new StringBuilder();
+          Aeropuerto actual=null;
         for(Aeropuerto aeropuerto: costoTotalKm.getAnterior()){
-            if(aeropuerto != null){
+            if(aeropuerto != null && aeropuerto!=actual){
+                actual=aeropuerto;
                 camino.append(aeropuerto.getCodigo())
                         .append(";")
                         .append(aeropuerto.getNombre())
@@ -309,8 +311,10 @@ public class ImplementacionSistema implements Sistema {
             return Retorno.error2("");
         }
         StringBuilder camino = new StringBuilder();
+         Aeropuerto actual=null;
         for(Aeropuerto aeropuerto: costoTotalKm.getAnterior()){
-            if(aeropuerto != null){
+            if(aeropuerto != null && aeropuerto!=actual){
+                actual=aeropuerto;
                 camino.append(aeropuerto.getCodigo())
                         .append(";")
                         .append(aeropuerto.getNombre())
