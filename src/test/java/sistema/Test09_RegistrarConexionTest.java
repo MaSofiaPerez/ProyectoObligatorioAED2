@@ -59,11 +59,18 @@ public class Test09_RegistrarConexionTest {
         assertEquals(Retorno.Resultado.ERROR_4,retorno.getResultado());
     }
 
-    @Test
+  @Test
     void deberiaRegistrarConexion(){
         sistema.registrarAeropuerto(new String("1"), new String("Aeropuerto1"));
         sistema.registrarAeropuerto(new String("2"), new String("Aeropuerto2"));
+        sistema.registrarAeropuerto(new String("3"), new String("Aeropuerto3"));
+        sistema.registrarAeropuerto(new String("4"), new String("Aeropuerto4"));
+
         retorno = sistema.registrarConexion(new String("1"),new String("2"),10);
+        assertEquals(Retorno.Resultado.OK,retorno.getResultado());
+        retorno = sistema.registrarConexion(new String("1"),new String("3"),10);
+        assertEquals(Retorno.Resultado.OK,retorno.getResultado());
+        retorno = sistema.registrarConexion(new String("2"),new String("4"),10);
         assertEquals(Retorno.Resultado.OK,retorno.getResultado());
     }
 
@@ -71,8 +78,14 @@ public class Test09_RegistrarConexionTest {
     void noDeberiaRegistrarConexionPorCaminoExistente(){
         sistema.registrarAeropuerto(new String("1"), new String("Aeropuerto1"));
         sistema.registrarAeropuerto(new String("2"), new String("Aeropuerto2"));
+        sistema.registrarAeropuerto(new String("3"), new String("Aeropuerto3"));
+        sistema.registrarAeropuerto(new String("4"), new String("Aeropuerto4"));
         sistema.registrarConexion(new String("1"),new String("2"),10);
+        sistema.registrarConexion(new String("2"),new String("4"),10);
+
         retorno = sistema.registrarConexion(new String("1"),new String("2"),10);
+        assertEquals(Retorno.Resultado.ERROR_5,retorno.getResultado());
+        retorno = sistema.registrarConexion(new String("2"),new String("4"),10);
         assertEquals(Retorno.Resultado.ERROR_5,retorno.getResultado());
     }
 }
