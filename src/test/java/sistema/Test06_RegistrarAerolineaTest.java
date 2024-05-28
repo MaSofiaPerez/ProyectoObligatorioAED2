@@ -18,7 +18,7 @@ public class Test06_RegistrarAerolineaTest {
     }
 
     @Test
-    void noDeberiaRegistrarPorMaxCant() {
+       void noDeberiaRegistrarPorMaxCant() {
         retorno = sistema.registrarAerolinea(new String("A"), new String("Aerolinea 1"));
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
 
@@ -52,6 +52,16 @@ public class Test06_RegistrarAerolineaTest {
 
         retorno = sistema.registrarAerolinea(new String("A"), null);
         assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(null, null);
+        assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(new String("B"), null);
+        assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(null, new String("Aerolinea 2"));
+        assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+
     }
 
     @Test
@@ -61,6 +71,19 @@ public class Test06_RegistrarAerolineaTest {
 
         retorno = sistema.registrarAerolinea(new String("A"), new String("Aerolinea 2"));
         assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(new String("B"), new String("Aerolinea 3"));
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(new String("B"), new String("Aerolinea 4"));
+        assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(new String("C"), new String("Aerolinea 5"));
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+
+        retorno = sistema.registrarAerolinea(new String("C"), new String("Aerolinea 6"));
+        assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+
     }
 
     @Test
@@ -76,5 +99,10 @@ public class Test06_RegistrarAerolineaTest {
 
         retorno = sistema.registrarAerolinea(new String("D"), new String("Aerolinea 4"));
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+
+
+
+
     }
 }
+
