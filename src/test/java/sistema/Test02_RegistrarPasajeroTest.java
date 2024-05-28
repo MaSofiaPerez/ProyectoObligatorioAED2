@@ -28,6 +28,8 @@ public class Test02_RegistrarPasajeroTest {
 
         retorno = sistema.registrarPasajero(new String("5.647.365-1"), new String("Gustavo"), new String(""), Categoria.ESTANDAR);
         assertEquals(Retorno.Resultado.ERROR_1, retorno.getResultado());
+        retorno = sistema.registrarPasajero(new String("7.687.365-1"), new String("Pedro"), new String(""), Categoria.ESTANDAR);
+        assertEquals(Retorno.Resultado.ERROR_1, retorno.getResultado());
     }
 
     @Test
@@ -42,6 +44,8 @@ public class Test02_RegistrarPasajeroTest {
         assertEquals(Retorno.Resultado.ERROR_1, retorno.getResultado());
 
         retorno = sistema.registrarPasajero(new String("5.647.365-1"), new String("Gustavo"), new String(""), null);
+        assertEquals(Retorno.Resultado.ERROR_1, retorno.getResultado());
+        retorno = sistema.registrarPasajero(new String("6.647.363-1"), new String("Pablo"), new String(""), null);
         assertEquals(Retorno.Resultado.ERROR_1, retorno.getResultado());
     }
 
@@ -61,6 +65,8 @@ public class Test02_RegistrarPasajeroTest {
 
         retorno = sistema.registrarPasajero(new String("0"), new String("Gustavo"), new String("1234"), Categoria.ESTANDAR);
         assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+        retorno = sistema.registrarPasajero(new String("043523"), new String("Pablo"), new String("1234"), Categoria.ESTANDAR);
+        assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
     }
 
     @Test
@@ -69,6 +75,9 @@ public class Test02_RegistrarPasajeroTest {
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         retorno = sistema.registrarPasajero(new String("5.447.365-2"), new String("Gustavo"), new String("1234"), Categoria.FRECUENTE);
         assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+        retorno = sistema.registrarPasajero(new String("5.447.365-2"), new String("Gustavo"), new String("1234"), Categoria.FRECUENTE);
+        assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+
     }
 
     @Test
@@ -77,6 +86,8 @@ public class Test02_RegistrarPasajeroTest {
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
 
         retorno = sistema.registrarPasajero(new String("5.888.365-1"), new String("Gustavo"), new String("1234"), Categoria.PLATINO);
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+        retorno = sistema.registrarPasajero(new String("4.858.365-1"), new String("Pablo"), new String("1234"), Categoria.ESTANDAR);
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
     }
 }
