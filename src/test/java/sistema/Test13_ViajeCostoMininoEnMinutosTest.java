@@ -32,8 +32,10 @@ public class Test13_ViajeCostoMininoEnMinutosTest {
         sistema.registrarConexion(new String("2"), new String("4"), 15);
         sistema.registrarConexion(new String("3"), new String("4"), 15);
         sistema.registrarConexion(new String("3"), new String("6"), 1);
-        sistema.registrarConexion(new String("3"), new String("5"), 3);
         sistema.registrarConexion(new String("6"), new String("4"), 18);
+        sistema.registrarConexion(new String("4"), new String("6"), 8);
+        sistema.registrarConexion(new String("2"), new String("6"), 18);
+        sistema.registrarConexion(new String("6"), new String("1"), 20);
 
         sistema.registrarAerolinea("1","Aerolinea1");
 
@@ -49,7 +51,19 @@ public class Test13_ViajeCostoMininoEnMinutosTest {
 
         retorno = sistema.registrarVuelo("1", "6", "5", 100, 30, 10, "1");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        retorno = sistema.registrarVuelo("6", "4", "6", 100, 30, 11, "1");
+        retorno = sistema.registrarVuelo("6", "4", "6", 180, 30, 11, "1");
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+
+
+
+        retorno = sistema.registrarVuelo("1", "2", "122", 130, 9, 70, "1");
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+        retorno = sistema.registrarVuelo("6", "1", "222", 300, 60, 120, "1");
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+
+        retorno = sistema.registrarVuelo("1", "6", "5645", 180, 40, 10, "1");
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+        retorno = sistema.registrarVuelo("6", "4", "3447", 140, 20, 11, "1");
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
     }
 
@@ -93,7 +107,7 @@ public class Test13_ViajeCostoMininoEnMinutosTest {
         retorno = sistema.viajeCostoMinimoEnMinutos(new String("1"), new String("4"));
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals(20, retorno.getValorInteger());
+        assertEquals(19, retorno.getValorInteger());
         assertEquals("1;Aeropuerto1|2;Aeropuerto2|4;Aeropuerto4", retorno.getValorString());
     }
 
@@ -109,7 +123,7 @@ public class Test13_ViajeCostoMininoEnMinutosTest {
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
         assertEquals(19, retorno.getValorInteger());
-        assertEquals("1;Aeropuerto1|3;Aeropuerto3|5;Aeropuerto5|4;Aeropuerto4", retorno.getValorString());
+        assertEquals("1;Aeropuerto1|2;Aeropuerto2|4;Aeropuerto4", retorno.getValorString());
     }
 
     @Test
@@ -118,14 +132,35 @@ public class Test13_ViajeCostoMininoEnMinutosTest {
         retorno = sistema.viajeCostoMinimoEnMinutos(new String("1"), new String("4"));
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals(20, retorno.getValorInteger());
+        assertEquals(19, retorno.getValorInteger());
         assertEquals("1;Aeropuerto1|2;Aeropuerto2|4;Aeropuerto4", retorno.getValorString());
+    }
+
+
+    @Test
+    void deberiaDevolverCostoMinimo3() {
+        cargarSetAeropuertoYConexiones1();
+        retorno = sistema.viajeCostoMinimoEnMinutos(new String("1"), new String("6"));
+
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+        assertEquals(9, retorno.getValorInteger());
+        assertEquals("1;Aeropuerto1|2;Aeropuerto2|6;Aeropuerto6", retorno.getValorString());
+    }
+
+    @Test
+    void deberiaDevolverCostoMinimo4() {
+        cargarSetAeropuertoYConexiones1();
+        retorno = sistema.viajeCostoMinimoEnMinutos(new String("6"), new String("2"));
+
+        assertEquals(Retorno.Resultado.OK, retorno.getResultado());
+        assertEquals(69, retorno.getValorInteger());
+        assertEquals("6;Aeropuerto6|1;Aeropuerto1|2;Aeropuerto2", retorno.getValorString());
     }
 
     @Test
     void nodeberiaDevolverCostoMinimoNoHayCamino(){
         cargarSetAeropuertoYConexiones1();
-        retorno = sistema.viajeCostoMinimoEnMinutos(new String("5"), new String("6"));
+        retorno = sistema.viajeCostoMinimoEnMinutos(new String("2"), new String("5"));
 
         assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
     }
