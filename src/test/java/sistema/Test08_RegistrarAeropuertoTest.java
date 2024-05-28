@@ -36,7 +36,7 @@ public class Test08_RegistrarAeropuertoTest {
     }
 
     @Test
-    void deberiaRegistrarAeropuerto() {
+     void deberiaRegistrarAeropuerto() {
         retorno = sistema.registrarAeropuerto(new String("1"), new String("Aeropuerto1"));
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
 
