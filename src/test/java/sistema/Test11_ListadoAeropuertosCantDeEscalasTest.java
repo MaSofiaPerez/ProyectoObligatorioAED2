@@ -27,14 +27,28 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
     @Test
     void noDeberiaListarAeropuertoNoRegistrado() {
         sistema.registrarAerolinea("1", "Aerolinea1");
+        sistema.registrarAerolinea("2", "Aerolinea2");
+        sistema.registrarAerolinea("3", "Aerolinea3");
+        sistema.registrarAerolinea("4", "Aerolinea4");
+
         retorno = sistema.listadoAeropuertosCantDeEscalas(new String("10"), 2,"1");
+        assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+        retorno = sistema.listadoAeropuertosCantDeEscalas(new String("5"), 6,"2");
+        assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
+        retorno = sistema.listadoAeropuertosCantDeEscalas(new String("4"), 3,"3");
         assertEquals(Retorno.Resultado.ERROR_2, retorno.getResultado());
     }
 
     @Test
     void noDeberiaListarAerolineaNoRegistrada() {
         retorno = sistema.registrarAeropuerto(new String("1"), new String("Aeropuerto1"));
+        retorno = sistema.registrarAeropuerto(new String("2"), new String("Aeropuerto2"));
+        retorno = sistema.registrarAeropuerto(new String("3"), new String("Aeropuerto3"));
         retorno = sistema.listadoAeropuertosCantDeEscalas(new String("1"), 2,"1");
+        assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+        retorno = sistema.listadoAeropuertosCantDeEscalas(new String("2"), 5,"4");
+        assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
+        retorno = sistema.listadoAeropuertosCantDeEscalas(new String("3"), 3,"2");
         assertEquals(Retorno.Resultado.ERROR_3, retorno.getResultado());
     }
 
@@ -48,6 +62,9 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
         sistema.registrarAeropuerto(new String("4"), new String("Aeropuerto4"));
         sistema.registrarAeropuerto(new String("5"), new String("Aeropuerto5"));
         sistema.registrarAeropuerto(new String("6"), new String("Aeropuerto6"));
+        sistema.registrarAeropuerto(new String("7"), new String("Aeropuerto7"));
+        sistema.registrarAeropuerto(new String("8"), new String("Aeropuerto8"));
+        sistema.registrarAeropuerto(new String("9"), new String("Aeropuerto9"));
 
         sistema.registrarConexion(new String("1"), new String("2"), 10);
         sistema.registrarConexion(new String("1"), new String("3"), 10);
@@ -56,6 +73,15 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
         sistema.registrarConexion(new String("3"), new String("4"), 10);
         sistema.registrarConexion(new String("3"), new String("6"), 10);
         sistema.registrarConexion(new String("3"), new String("5"), 10);
+        sistema.registrarConexion(new String("7"), new String("8"), 10);
+        sistema.registrarConexion(new String("7"), new String("9"), 10);
+        sistema.registrarConexion(new String("7"), new String("6"), 10);
+        sistema.registrarConexion(new String("8"), new String("9"), 10);
+        sistema.registrarConexion(new String("8"), new String("7"), 10);
+        sistema.registrarConexion(new String("6"), new String("9"), 10);
+        sistema.registrarConexion(new String("6"), new String("7"), 10);
+        sistema.registrarConexion(new String("6"), new String("9"), 10);
+        sistema.registrarConexion(new String("6"), new String("5"), 10);
 
     }
 
@@ -81,6 +107,18 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
         sistema.registrarConexion(new String("3"), new String("5"), 10);
         sistema.registrarConexion(new String("4"), new String("8"), 10);
         sistema.registrarConexion(new String("5"), new String("8"), 10);
+        sistema.registrarConexion(new String("5"), new String("4"), 10);
+        sistema.registrarConexion(new String("5"), new String("6"), 10);
+        sistema.registrarConexion(new String("5"), new String("7"), 10);
+        sistema.registrarConexion(new String("6"), new String("5"), 10);
+        sistema.registrarConexion(new String("6"), new String("8"), 10);
+        sistema.registrarConexion(new String("6"), new String("4"), 10);
+        sistema.registrarConexion(new String("7"), new String("4"), 10);
+        sistema.registrarConexion(new String("8"), new String("4"), 10);
+        sistema.registrarConexion(new String("7"), new String("6"), 10);
+        sistema.registrarConexion(new String("8"), new String("5"), 10);
+        sistema.registrarConexion(new String("7"), new String("8"), 10);
+        sistema.registrarConexion(new String("1"), new String("8"), 10);
 
     }
 
@@ -122,7 +160,7 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
         retorno = sistema.listadoAeropuertosCantDeEscalas(new String("1"), 2,"1");
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("1;Aeropuerto1|2;Aeropuerto2|3;Aeropuerto3|4;Aeropuerto4|5;Aeropuerto5|6;Aeropuerto6", retorno.getValorString());
+        assertEquals("1;Aeropuerto1|2;Aeropuerto2|3;Aeropuerto3|4;Aeropuerto4|5;Aeropuerto5|6;Aeropuerto6|8;Aeropuerto8", retorno.getValorString());
     }
 
     @Test
@@ -131,7 +169,7 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
         retorno = sistema.listadoAeropuertosCantDeEscalas(new String("8"), 2,"1");
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("8;Aeropuerto8", retorno.getValorString());
+        assertEquals("4;Aeropuerto4|5;Aeropuerto5|6;Aeropuerto6|7;Aeropuerto7|8;Aeropuerto8", retorno.getValorString());
     }
 
     @Test
@@ -140,12 +178,13 @@ public class Test11_ListadoAeropuertosCantDeEscalasTest {
 
         sistema.registrarVuelo("3","4","1",100,10,20,"1");
         sistema.registrarVuelo("3","6","2",100,10,20,"1");
+        sistema.registrarVuelo("7","6","3",100,10,20,"1");
         sistema.registrarVuelo("3","5","3",100,10,20,"1");
         sistema.registrarVuelo("5","8","3",100,10,20,"1");
 
         retorno = sistema.listadoAeropuertosCantDeEscalas(new String("3"), 10,"1");
 
         assertEquals(Retorno.Resultado.OK, retorno.getResultado());
-        assertEquals("3;Aeropuerto3|4;Aeropuerto4|5;Aeropuerto5|6;Aeropuerto6|8;Aeropuerto8", retorno.getValorString());
+        assertEquals("3;Aeropuerto3|4;Aeropuerto4|5;Aeropuerto5|6;Aeropuerto6|7;Aeropuerto7|8;Aeropuerto8", retorno.getValorString());
     }
 }
